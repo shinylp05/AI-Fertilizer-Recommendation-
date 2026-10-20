@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AgriSmart AI | Smart Farming Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN / SIGNUP SCREEN
+====================================================== -->
+
+<div id="authScreen" class="auth-screen">
+
+    <div class="auth-left">
+
+        <div class="brand-large">
+
+            <div class="brand-symbol">
+                🌱
+            </div>
+
+            <span>AgriSmart AI</span>
+
+        </div>
+
+
+        <div class="auth-hero">
+
+            <div class="eyebrow">
+                SMART AGRICULTURE • MACHINE LEARNING
+            </div>
+
+            <h1>
+                Smart Farming.<br>
+                <span>Smarter Decisions.</span>
+            </h1>
+
+            <p>
+                An AI-based fertilizer recommendation system
+                that analyzes soil, crop, environmental and
+                nutrient information.
+            </p>
+
+
+            <div class="auth-features">
+
+                <div>
+                    <strong>08</strong>
+                    <span>Input Features</span>
+                </div>
+
+                <div>
+                    <strong id="authClassCount">07</strong>
+                    <span>Fertilizer Classes</span>
+                </div>
+
+                <div>
+                    <strong>ML</strong>
+                    <span>Prediction</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-footer">
+            Academic Machine Learning Project • AgriSmart AI
+        </div>
+
+    </div>
+
+
+    <div class="auth-right">
+
+        <div class="auth-card">
+
+
+            <div class="auth-card-header">
+
+                <div class="auth-icon">
+                    🌾
+                </div>
+
+                <h2 id="authTitle">
+                    Welcome Back
+                </h2>
+
+                <p id="authSubtitle">
+                    Sign in to continue to your farming dashboard.
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <form id="loginForm">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter username"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="main-button"
+                >
+                    Login
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <!-- SIGNUP -->
+
+            <form
+                id="signupForm"
+                class="hidden"
+            >
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="signupUsername"
+                    placeholder="Create username"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Create password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="main-button"
+                >
+                    Create Account
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <div
+                id="authMessage"
+                class="auth-message"
+            ></div>
+
+
+            <div class="auth-switch">
+
+                <span id="switchText">
+                    Don't have an account?
+                </span>
+
+                <button
+                    type="button"
+                    id="switchAuth"
+                >
+                    Create Account
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+====================================================== -->
+
+<div
+    id="appScreen"
+    class="app-screen hidden"
+>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-symbol small">
+                🌱
+            </div>
+
+            <div>
+                <strong>AgriSmart AI</strong>
+                <small>Smart Farming Platform</small>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <button
+                class="nav-item active"
+                data-page="dashboard"
+            >
+                <span>⌂</span>
+                Dashboard
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="prediction"
+            >
+                <span>✦</span>
+                Fertilizer Prediction
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="history"
+            >
+                <span>▤</span>
+                Prediction History
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="profile"
+            >
+                <span>◉</span>
+                My Profile
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="model-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>ML Model</strong>
+                    <small id="modelStatus">
+                        Checking...
+                    </small>
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+            >
+                ⇥ Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="topbar-label">
+                    AGRISMART AI
+                </div>
+
+                <h2 id="pageTitle">
+                    Dashboard
+                </h2>
+
+            </div>
+
+
+            <div class="user-chip">
+
+                <div class="avatar">
+                    <span id="userInitial">
+                        U
+                    </span>
+                </div>
+
+                <div>
+                    <strong id="userName">
+                        User
+                    </strong>
+
+                    <small>
+                        Farmer Portal
+                    </small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             DASHBOARD PAGE
+        ================================================== -->
+
+        <section
+            id="dashboardPage"
+            class="page"
+        >
+
+
+            <div class="welcome-banner">
+
+                <div>
+
+                    <div class="eyebrow">
+                        SMART AGRICULTURE PLATFORM
+                    </div>
+
+                    <h1>
+                        Good to see you,
+                        <span id="welcomeName">
+                            Farmer
+                        </span> 👋
+                    </h1>
+
+                    <p>
+                        Analyze your agricultural conditions
+                        and generate an ML-based fertilizer
+                        class prediction.
+                    </p>
+
+
+                    <button
+                        class="main-button compact"
+                        onclick="showPage('prediction')"
+                    >
+                        Start New Prediction
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+
+                <div class="banner-visual">
+                    🌱
+                </div>
+
+            </div>
+
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ◈
+                    </div>
+
+                    <div>
+                        <strong>08</strong>
+                        <span>Input Features</span>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        ◇
+                    </div>
+
+                    <div>
+                        <strong id="dashboardClassCount">
+                            07
+                        </strong>
+
+                        <span>
+                            Fertilizer Classes
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        ◉
+                    </div>
+
+                    <div>
+                        <strong id="predictionCount">
+                            0
+                        </strong>
+
+                        <span>
+                            My Predictions
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        AI
+                    </div>
+
+                    <div>
+                        <strong>ML</strong>
+                        <span>Prediction Engine</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DASHBOARD CARDS -->
+
+            <div class="dashboard-grid">
+
+
+                <div class="content-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <div class="card-kicker">
+                                QUICK ACTION
+                            </div>
+
+                            <h3>
+                                Fertilizer Recommendation
+                            </h3>
+
+                        </div>
+
+                        <span class="card-icon">
+                            🌾
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Enter temperature, humidity,
+                        soil moisture, soil type, crop type
+                        and nutrient values to generate
+                        a fertilizer class prediction.
+                    </p>
+
+
+                    <button
+                        class="outline-button"
+                        onclick="showPage('prediction')"
+                    >
+                        Open Prediction →
+                    </button>
+
+                </div>
+
+
+
+                <div class="content-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <div class="card-kicker">
+                                SYSTEM
+                            </div>
+
+                            <h3>
+                                How It Works
+                            </h3>
+
+                        </div>
+
+                        <span class="card-icon">
+                            ⚙
+                        </span>
+
+                    </div>
+
+
+                    <div class="mini-workflow">
+
+                        <div>
+                            <b>01</b>
+                            <span>Input</span>
+                        </div>
+
+                        <i>→</i>
+
+                        <div>
+                            <b>02</b>
+                            <span>Process</span>
+                        </div>
+
+                        <i>→</i>
+
+                        <div>
+                            <b>03</b>
+                            <span>Predict</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PREDICTION PAGE
+        ================================================== -->
+
+        <section
+            id="predictionPage"
+            class="page hidden"
+        >
+
+            <div class="page-intro">
+
+                <div>
+
+                    <div class="eyebrow">
+                        MACHINE LEARNING ANALYSIS
+                    </div>
+
+                    <h1>
+                        Fertilizer Prediction
+                    </h1>
+
+                    <p>
+                        Enter the agricultural parameters
+                        below to generate a fertilizer class
+                        prediction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="predictionForm">
+
+
+                <!-- ENVIRONMENT -->
+
+                <div class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Environmental Information
+                            </h3>
+
+                            <p>
+                                Basic soil and environmental conditions.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid three">
+
+                        <div class="input-box">
+
+                            <label>
+                                Temperature
+                                <span>°C</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="temperature"
+                                value="25"
+                                min="0"
+                                max="60"
+                                step="0.1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="input-box">
+
+                            <label>
+                                Humidity
+                                <span>%</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="humidity"
+                                value="60"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="input-box">
+
+                            <label>
+                                Soil Moisture
+                                <span>%</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="moisture"
+                                value="40"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid two">
+
+                        <div class="input-box">
+
+                            <label>
+                                Soil Type
+                            </label>
+
+                            <select id="soilType">
+
+                                <option>Sandy</option>
+                                <option>Loamy</option>
+                                <option>Black</option>
+                                <option>Red</option>
+                                <option>Clayey</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-box">
+
+                            <label>
+                                Crop Type
+                            </label>
+
+                            <select id="cropType">
+
+                                <option>Rice</option>
+                                <option>Maize</option>
+                                <option>Wheat</option>
+                                <option>Cotton</option>
+                                <option>Sugarcane</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NUTRIENTS -->
+
+                <div class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Soil Nutrient Information
+                            </h3>
+
+                            <p>
+                                Enter the available N, P and K values.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="nutrient-grid">
+
+
+                        <div class="nutrient-card nitrogen">
+
+                            <div class="nutrient-top">
+                                <span>N</span>
+                                <strong>Nitrogen</strong>
+                            </div>
+
+                            <input
+                                type="number"
+                                id="nitrogen"
+                                value="40"
+                                min="0"
+                                required
+                            >
+
+                            <small>
+                                Nitrogen content
+                            </small>
+
+                        </div>
+
+
+                        <div class="nutrient-card phosphorus">
+
+                            <div class="nutrient-top">
+                                <span>P</span>
+                                <strong>Phosphorus</strong>
+                            </div>
+
+                            <input
+                                type="number"
+                                id="phosphorus"
+                                value="30"
+                                min="0"
+                                required
+                            >
+
+                            <small>
+                                Phosphorus content
+                            </small>
+
+                        </div>
+
+
+                        <div class="nutrient-card potassium">
+
+                            <div class="nutrient-top">
+                                <span>K</span>
+                                <strong>Potassium</strong>
+                            </div>
+
+                            <input
+                                type="number"
+                                id="potassium"
+                                value="20"
+                                min="0"
+                                required
+                            >
+
+                            <small>
+                                Potassium content
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div
+                    id="predictionMessage"
+                    class="form-message"
+                ></div>
+
+
+                <button
+                    type="submit"
+                    class="predict-button"
+                >
+                    <span>✦</span>
+                    Analyze & Predict Fertilizer
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+
+            <!-- RESULT -->
+
+            <div
+                id="resultContainer"
+                class="result-container hidden"
+            >
+
+                <div class="result-header">
+                    <div>
+                        <div class="eyebrow">
+                            AI ANALYSIS COMPLETE
+                        </div>
+
+                        <h2>
+                            Fertilizer Recommendation
+                        </h2>
+                    </div>
+
+                    <div class="result-check">
+                        ✓
+                    </div>
+                </div>
+
+
+                <div class="result-main">
+
+                    <div class="result-icon-large">
+                        🌱
+                    </div>
+
+                    <div>
+
+                        <span>
+                            RECOMMENDED FERTILIZER CLASS
+                        </span>
+
+                        <h1 id="resultFertilizer">
+                            —
+                        </h1>
+
+                        <p id="resultDescription">
+                            —
+                        </p>
+
+                        <div
+                            id="resultGrade"
+                            class="grade-badge"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-inputs">
+
+                    <div>
+                        <span>Crop</span>
+                        <strong id="resultCrop">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Soil</span>
+                        <strong id="resultSoil">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Temperature</span>
+                        <strong id="resultTemp">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Humidity</span>
+                        <strong id="resultHumidity">—</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="nutrient-bars">
+
+                    <div class="bar-row">
+
+                        <div>
+                            <span>Nitrogen</span>
+                            <strong id="barNValue">0</strong>
+                        </div>
+
+                        <div class="bar">
+                            <i id="barN"></i>
+                        </div>
+
+                    </div>
+
+
+                    <div class="bar-row">
+
+                        <div>
+                            <span>Phosphorus</span>
+                            <strong id="barPValue">0</strong>
+                        </div>
+
+                        <div class="bar">
+                            <i id="barP"></i>
+                        </div>
+
+                    </div>
+
+
+                    <div class="bar-row">
+
+                        <div>
+                            <span>Potassium</span>
+                            <strong id="barKValue">0</strong>
+                        </div>
+
+                        <div class="bar">
+                            <i id="barK"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             HISTORY PAGE
+        ================================================== -->
+
+        <section
+            id="historyPage"
+            class="page hidden"
+        >
+
+            <div class="page-intro">
+
+                <div>
+
+                    <div class="eyebrow">
+                        YOUR ACTIVITY
+                    </div>
+
+                    <h1>
+                        Prediction History
+                    </h1>
+
+                    <p>
+                        Review your previous fertilizer
+                        prediction records.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-card">
+
+                <div
+                    id="historyContainer"
+                    class="history-container"
+                >
+
+                    <div class="loading">
+                        Loading history...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROFILE PAGE
+        ================================================== -->
+
+        <section
+            id="profilePage"
+            class="page hidden"
+        >
+
+            <div class="page-intro">
+
+                <div>
+
+                    <div class="eyebrow">
+                        ACCOUNT
+                    </div>
+
+                    <h1>
+                        My Profile
+                    </h1>
+
+                    <p>
+                        Your AgriSmart AI account information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-grid">
+
+
+                <div class="profile-card main-profile">
+
+                    <div class="profile-avatar">
+                        <span id="profileInitial">
+                            U
+                        </span>
+                    </div>
+
+                    <h2 id="profileName">
+                        User
+                    </h2>
+
+                    <p id="profileUsername">
+                        @username
+                    </p>
+
+                    <div class="profile-role">
+                        Farmer Portal
+                    </div>
+
+                </div>
+
+
+                <div class="profile-card">
+
+                    <div class="card-kicker">
+                        ACCOUNT DETAILS
+                    </div>
+
+                    <div class="profile-details">
+
+                        <div>
+                            <span>Full Name</span>
+                            <strong id="detailName">
+                                —
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Username</span>
+                            <strong id="detailUsername">
+                                —
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Member Since</span>
+                            <strong id="detailDate">
+                                —
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Predictions</span>
+                            <strong id="detailPredictions">
+                                0
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="app-footer">
+
+            <strong>
+                🌱 AgriSmart AI
+            </strong>
+
+            <span>
+                AI-Based Fertilizer Recommendation System
+                • Academic Project
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+</body>
+
+</html>
